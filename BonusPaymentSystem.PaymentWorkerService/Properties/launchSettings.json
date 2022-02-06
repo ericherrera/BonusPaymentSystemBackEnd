@@ -1,0 +1,11 @@
+﻿{
+  "profiles": {
+    "BonusPaymentSystem.PaymentWorkerService": {
+      "commandName": "Project",
+      "dotnetRunMessages": "true",
+      "environmentVariables": {
+        "DOTNET_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}
