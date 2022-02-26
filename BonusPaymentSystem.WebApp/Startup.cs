@@ -1,3 +1,6 @@
+using BonusPaymentSystem.Core.Model;
+using BonusPaymentSystem.Service;
+using BonusPaymentSystem.Service.Interfaces;
 using BonusPaymentSystem.WebApp.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -17,6 +20,8 @@ namespace BonusPaymentSystem.WebApp
 {
     public class Startup
     {
+        private const string ConnectionString = "DefaultConnection";
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -55,7 +60,7 @@ namespace BonusPaymentSystem.WebApp
                 // User settings.
                 options.User.AllowedUserNameCharacters =
                 "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
-                options.User.RequireUniqueEmail = false;
+                options.User.RequireUniqueEmail = true;
             });
 
             services.ConfigureApplicationCookie(options =>
@@ -69,6 +74,13 @@ namespace BonusPaymentSystem.WebApp
                 options.SlidingExpiration = true;
             });
 
+            //End Identitty Context
+
+            services.AddScoped<IUserService, UserService>(prop => new UserService(Configuration.GetConnectionString(ConnectionString)));
+            services.AddScoped<IGenericService<Campaing>, CampaingService>(prop => new CampaingService(Configuration.GetConnectionString(ConnectionString)));
+            services.AddScoped<IGenericService<Sale>, SaleService>(prop => new SaleService(Configuration.GetConnectionString(ConnectionString)));
+            services.AddScoped<IGenericService<Payment>, PaymentService>(prop => new PaymentService(Configuration.GetConnectionString(ConnectionString)));
+            services.AddScoped<IGenericService<Parameter>, ParameterService>(prop => new ParameterService(Configuration.GetConnectionString(ConnectionString)));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
