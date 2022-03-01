@@ -42,15 +42,17 @@ namespace BonusPaymentSystem.WebApp.Areas.Identity.Pages.Account
 
         public class InputModel
         {
-            [Required]
-            [EmailAddress]
+            [Required(ErrorMessage = "Usuario es campo requerido.")]
+            [EmailAddress(ErrorMessage = "Favor ingresar un correo valido.")]
+            [Display(Name ="Usuario")]
             public string Email { get; set; }
 
-            [Required]
+            [Required(ErrorMessage = "Contraseña es campo requerido.")]
             [DataType(DataType.Password)]
+            [Display(Name = "Contraseña")]
             public string Password { get; set; }
 
-            [Display(Name = "Remember me?")]
+            [Display(Name = "Recordarme?")]
             public bool RememberMe { get; set; }
         }
 
@@ -93,12 +95,12 @@ namespace BonusPaymentSystem.WebApp.Areas.Identity.Pages.Account
                 }
                 if (result.IsLockedOut)
                 {
-                    _logger.LogWarning("User account locked out.");
+                    _logger.LogWarning("Usuario blockeado, consulte con el administrador.");
                     return RedirectToPage("./Lockout");
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    ModelState.AddModelError(string.Empty, "Usuario y/o Contraseña incorrecta.");
                     return Page();
                 }
             }
