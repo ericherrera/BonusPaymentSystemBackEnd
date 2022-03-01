@@ -76,7 +76,7 @@ namespace BonusPaymentSystem.WebApp
 
             //End Identitty Context
 
-            services.AddScoped<IUserService, UserService>(prop => new UserService(Configuration.GetConnectionString(ConnectionString)));
+            services.AddScoped<IUserApplicationService, UserApplicationService>(prop => new UserApplicationService(Configuration.GetConnectionString(ConnectionString)));
             services.AddScoped<IGenericService<Campaing>, CampaingService>(prop => new CampaingService(Configuration.GetConnectionString(ConnectionString)));
             services.AddScoped<IGenericService<Sale>, SaleService>(prop => new SaleService(Configuration.GetConnectionString(ConnectionString)));
             services.AddScoped<IGenericService<Payment>, PaymentService>(prop => new PaymentService(Configuration.GetConnectionString(ConnectionString)));

@@ -22,4 +22,8 @@
     <ProjectReference Include="..\BonusPaymentSystem.Service\BonusPaymentSystem.Service.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Models\NewFolder\" />
+  </ItemGroup>
+
 </Project>

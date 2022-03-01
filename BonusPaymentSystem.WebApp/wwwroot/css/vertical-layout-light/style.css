@@ -19700,6 +19700,7 @@ code {
 /* Footer */
 .footer {
   background: #F5F7FF;
+  position: static;
   padding: 30px 2.45rem;
   transition: all 0.25s ease;
   -moz-transition: all 0.25s ease;

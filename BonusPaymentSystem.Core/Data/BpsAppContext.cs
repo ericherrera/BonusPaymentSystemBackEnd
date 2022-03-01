@@ -24,6 +24,7 @@ namespace BonusPaymentSystem.Core.Data
         {
             return SqlServerDbContextOptionsExtensions.UseSqlServer(new DbContextOptionsBuilder(), connectionString).Options;
         }
+        public DbSet<ApplicationUser> AppUsers { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Campaing> Campaings { get; set; }
         public DbSet<Payment> Payments { get; set; }
