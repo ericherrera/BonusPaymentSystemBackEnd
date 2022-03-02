@@ -1,0 +1,88 @@
+﻿@model BonusPaymentSystem.Core.Model.Campaing
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<div class="row">
+    <div class="col-md-8 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">@ViewData["Title"]</h4>
+                <form asp-action="Edit">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>.
+                    <input asp-for="Id" class="form-control" type="hidden" />
+                    <div class="form-group">
+                        <label asp-for="Name" class="control-label"></label>
+                        <input asp-for="Name" class="form-control" readonly />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="StartedDate" class="control-label"></label>
+                        <input asp-for="StartedDate" class="form-control" readonly />
+                        <span asp-validation-for="StartedDate" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="EnddDate" class="control-label"></label>
+                        <input asp-for="EnddDate" class="form-control" />
+                        <span asp-validation-for="EnddDate" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Amount" class="control-label"></label>
+                        <input asp-for="Amount" class="form-control" />
+                        <span asp-validation-for="Amount" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="MinAllowedAmount" class="control-label"></label>
+                        <input asp-for="MinAllowedAmount" class="form-control" />
+                        <span asp-validation-for="MinAllowedAmount" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="MinAllowedRate" class="control-label"></label>
+                        <input asp-for="MinAllowedRate" class="form-control" />
+                        <span asp-validation-for="MinAllowedRate" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="MaxAllowedRate" class="control-label"></label>
+                        <input asp-for="MaxAllowedRate" class="form-control" />
+                        <span asp-validation-for="MaxAllowedRate" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="MinTerm" class="control-label"></label>
+                        <input asp-for="MinTerm" class="form-control" />
+                        <span asp-validation-for="MinTerm" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="MaxTerm" class="control-label"></label>
+                        <input asp-for="MaxTerm" class="form-control" />
+                        <span asp-validation-for="MaxTerm" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="SavingAccountSource" class="control-label"></label>
+                        <input asp-for="SavingAccountSource" class="form-control" />
+                        <span asp-validation-for="SavingAccountSource" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="ProfitRate" class="control-label"></label>
+                        <input asp-for="ProfitRate" class="form-control" />
+                        <span asp-validation-for="SavingAccountSource" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="State" class="control-label"></label>
+                        @Html.DropDownList("State", new List<SelectListItem>
+                                                        {
+                                                            new SelectListItem {Text = "Activo", Value = "1", Selected =  Model.State == 1},
+                                                            new SelectListItem {Text = "Inactivo", Value = "2", Selected =  Model.State != 1 },
+                                                        }, "Seleccionar", new { @class = "form-control" })
+                        <span asp-validation-for="State" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Guardar" class="btn btn-primary" />
+                        <a asp-action="Index" asp-controller="Campaing" class="btn btn-light">Regresar</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

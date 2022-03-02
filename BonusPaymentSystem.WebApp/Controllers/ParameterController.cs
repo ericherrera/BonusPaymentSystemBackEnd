@@ -14,9 +14,9 @@ namespace BonusPaymentSystem.WebApp.Controllers
     public class ParameterController : Controller
     {
         private readonly IGenericService<Parameter> _parameterServiceg;
-        private readonly IUserService _userService;
+        private readonly IUserApplicationService _userService;
 
-        public ParameterController(IGenericService<Parameter> parameterServiceg, IUserService userService)
+        public ParameterController(IGenericService<Parameter> parameterServiceg, IUserApplicationService userService)
         {
             _parameterServiceg = parameterServiceg;
             _userService = userService;

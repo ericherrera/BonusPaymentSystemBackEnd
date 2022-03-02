@@ -1,0 +1,153 @@
+﻿@model BonusPaymentSystem.Core.Model.Campaing
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-body">
+                <p class="card-title mb-0">@ViewData["Title"] </p>
+                    <div class="table-responsive">
+                        <table class="table table-striped table-borderless">
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        @Html.DisplayNameFor(model => model.Id)
+                                    </td>
+                                    <td class="font-weight-bold" ">
+                                        @Html.DisplayFor(model => model.Id)
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        @Html.DisplayNameFor(model => model.CreatedById)
+                                    </td>
+                                    <td class="font-weight-bold" ">
+                                        @Html.DisplayFor(model => model.CreatedById)
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        @Html.DisplayNameFor(model => model.CreateOn)
+                                    </td>
+                                    <td class="font-weight-bold" ">
+                                        @Html.DisplayFor(model => model.CreateOn)
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        @Html.DisplayNameFor(model => model.UpdatedById)
+                                    </td>
+                                    <td class="font-weight-bold" ">
+                                        @Html.DisplayFor(model => model.UpdatedById)
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        @Html.DisplayNameFor(model => model.UpdatedOn)
+                                    </td>
+                                    <td class="font-weight-bold" ">
+                                        @Html.DisplayFor(model => model.UpdatedOn)
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        @Html.DisplayNameFor(model => model.Name)
+                                    </td>
+                                    <td class="font-weight-bold" ">
+                                        @Html.DisplayFor(model => model.Name)
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        @Html.DisplayNameFor(model => model.StartedDate)
+                                    </td>
+                                    <td class="font-weight-bold" ">
+                                        @Html.DisplayFor(model => model.StartedDate)
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        @Html.DisplayNameFor(model => model.EnddDate)
+                                    </td>
+                                    <td class="font-weight-bold" ">
+                                        @Html.DisplayFor(model => model.EnddDate)
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        @Html.DisplayNameFor(model => model.Amount)
+                                    </td>
+                                    <td class="font-weight-bold" ">
+                                        @Html.DisplayFor(model => model.Amount)
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        @Html.DisplayNameFor(model => model.MinAllowedAmount)
+                                    </td>
+                                    <td class="font-weight-bold" ">
+                                        @Html.DisplayFor(model => model.MinAllowedAmount)
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        @Html.DisplayNameFor(model => model.MinAllowedRate)
+                                    </td>
+                                    <td class="font-weight-bold" ">
+                                        @Html.DisplayFor(model => model.MinAllowedRate)
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        @Html.DisplayNameFor(model => model.MaxAllowedRate)
+                                    </td>
+                                    <td class="font-weight-bold" ">
+                                        @Html.DisplayFor(model => model.MaxAllowedRate)
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        @Html.DisplayNameFor(model => model.MinTerm)
+                                    </td>
+                                    <td class="font-weight-bold" ">
+                                        @Html.DisplayFor(model => model.MinTerm)
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        @Html.DisplayNameFor(model => model.MaxTerm)
+                                    </td>
+                                    <td class="font-weight-bold" ">
+                                        @Html.DisplayFor(model => model.MaxTerm)
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        @Html.DisplayNameFor(model => model.SavingAccountSource)
+                                    </td>
+                                    <td class="font-weight-bold" ">
+                                        @Html.DisplayFor(model => model.SavingAccountSource)
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        @Html.DisplayNameFor(model => model.ProfitRate)
+                                    </td>
+                                    <td class="font-weight-bold" ">
+                                        @Html.DisplayFor(model => model.ProfitRate)
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                <div class="row">
+                    @Html.ActionLink("Editar", "Edit", new { id = Model.Id }) |
+                    <a asp-action="Index" asp-controller="Campaing">Regresar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -15,11 +15,11 @@ namespace BonusPaymentSystem.WebApp.Controllers
     public class SaleController : Controller
     {
         private readonly IGenericService<Sale> _saleService;
-        private readonly IUserService _userService;
+        private readonly IUserApplicationService _userService;
         private readonly IGenericService<Campaing> _campaingService;
         private readonly IGenericService<Payment> _paymentService;
 
-        public SaleController(IGenericService<Sale> saleService, IUserService userService, IGenericService<Campaing> campaingService, IGenericService<Payment> paymentService)
+        public SaleController(IGenericService<Sale> saleService, IUserApplicationService userService, IGenericService<Campaing> campaingService, IGenericService<Payment> paymentService)
         {
             _saleService = saleService;
             _userService = userService;

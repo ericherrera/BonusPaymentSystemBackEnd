@@ -15,9 +15,9 @@ namespace BonusPaymentSystem.WebApp.Controllers
     {
             
         private readonly IGenericService<Campaing> _campaingServiceg;
-        private readonly IUserService _userService;
+        private readonly IUserApplicationService _userService;
 
-        public CampaingController(IGenericService<Campaing> campaingServiceg, IUserService userService)
+        public CampaingController(IGenericService<Campaing> campaingServiceg, IUserApplicationService userService)
         {
             _campaingServiceg = campaingServiceg;
             _userService = userService;
@@ -72,6 +72,9 @@ namespace BonusPaymentSystem.WebApp.Controllers
                     ModelState.AddModelError(string.Empty, $"El nombre de la campaña [{model.Name}] ya existe");
                     return View(model);
                 }
+
+                model.CreateOn = DateTime.Now;
+                model.CreatedById = _userService.Get(User.Identity.Name).Id;
 
                 _campaingServiceg.Add(model);
 

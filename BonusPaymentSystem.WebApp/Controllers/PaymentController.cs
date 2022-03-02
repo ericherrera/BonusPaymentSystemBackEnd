@@ -19,14 +19,14 @@ namespace BonusPaymentSystem.WebApp.Controllers
     [Authorize]
     public class PaymentController : Controller
     {
-        private readonly IUserService _userService;
+        private readonly IUserApplicationService _userService;
         private readonly IGenericService<Sale> _saleService;
         private readonly IGenericService<Payment> _paymentService;
         private readonly IGenericService<Campaing> _campaingService;
         private readonly IEnumerable<Parameter> _parameters;
 
         public PaymentController(IGenericService<Payment> paymentService, IGenericService<Sale> saleService,
-                            IUserService userService, IGenericService<Campaing> campaingService, IGenericService<Parameter> parameterService)
+                            IUserApplicationService userService, IGenericService<Campaing> campaingService, IGenericService<Parameter> parameterService)
         {
             _paymentService = paymentService;
             _saleService = saleService;
