@@ -32,11 +32,11 @@ namespace BonusPaymentSystem.WebApp.Areas.Identity.Pages.Account
             _logger.LogInformation("User logged out.");
             if (returnUrl != null)
             {
-                return RedirectToPage("LoginModel",new { returnUrl = returnUrl });
+                return RedirectToAction("Index","Home");
             }
             else
             {
-                return RedirectToPage("LoginModel");
+                return RedirectToAction("Index", "Home");
             }
         }
     }
