@@ -51,8 +51,11 @@ namespace BonusPaymentSystem.WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(ApplicationUser modalUser)
         {
-            if (modalUser == null || string.IsNullOrEmpty(modalUser.UserName))
-                return NotFound();
+            if (modalUser == null || string.IsNullOrEmpty(modalUser.UserName) || string.IsNullOrEmpty(modalUser.PasswordHash))
+            {
+                ModelState.AddModelError(string.Empty, "Favor completar todos los campos requeridos");
+                return View(modalUser);
+            }
             try
             {
                 if (_userService.Get().Any(p => p.EmployeeCode == modalUser.EmployeeCode || p.UserName == modalUser.UserName))
