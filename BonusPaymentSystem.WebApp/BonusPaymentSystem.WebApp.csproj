@@ -18,6 +18,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\BonusPaymentSystem.AfiHogarApi\BonusPaymentSystem.AfiHogarApi.csproj" />
+    <ProjectReference Include="..\BonusPaymentSystem.Commons\BonusPaymentSystem.Commons.csproj" />
     <ProjectReference Include="..\BonusPaymentSystem.Core\BonusPaymentSystem.Core.csproj" />
     <ProjectReference Include="..\BonusPaymentSystem.Service\BonusPaymentSystem.Service.csproj" />
   </ItemGroup>
