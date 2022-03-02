@@ -49,7 +49,7 @@ namespace BonusPaymentSystem.WebApp.Controllers
         // GET: SaleController/Create
         public ActionResult Create()
         {
-            return View(new Campaing());
+            return View(new Sale());
         }
 
         // POST: SaleController/Create
@@ -78,6 +78,8 @@ namespace BonusPaymentSystem.WebApp.Controllers
                     ModelState.AddModelError(string.Empty, "Debe cumplir con los montos / plazos maximo y minimos de la Campaña!");
                     return View(model);
                 }
+                model.CreatedOn = DateTimeOffset.Now;
+                model.UserId = _userService.Get(User.Identity.Name).Id;
 
                 _saleService.Add(model);
 

@@ -1,0 +1,52 @@
+﻿@model BonusPaymentSystem.Core.Model.Sale
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<div class="row">
+    <div class="col-md-8 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">@ViewData["Title"]</h4>
+                <form asp-action="Create">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="CampaingId" class="control-label"></label>
+                        <input asp-for="CampaingId" class="form-control" />
+                        <span asp-validation-for="CampaingId" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Rate" class="control-label"></label>
+                        <input asp-for="Rate" class="form-control" />
+                        <span asp-validation-for="Rate" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Amount" class="control-label"></label>
+                        <input asp-for="Amount" class="form-control" />
+                        <span asp-validation-for="Amount" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Term" class="control-label"></label>
+                        <input asp-for="Term" class="form-control" />
+                        <span asp-validation-for="Term" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="State" class="control-label"></label>
+                        @Html.DropDownList("State", new List<SelectListItem>
+                                                        {
+                                                            new SelectListItem {Text = "Venta Realizada", Value = "1" },
+                                                            new SelectListItem {Text = "Venta Descartada", Value = "2" },
+                                                            new SelectListItem {Text = "Venta con Incentivo Pagado", Value = "2" },
+                                                        }, "Seleccionar", new { @class = "form-control" })
+                        <span asp-validation-for="State" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Guardar" class="btn btn-primary" />
+                        <a asp-action="Index" asp-controller="Sale" class="btn btn-light">Regresar</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

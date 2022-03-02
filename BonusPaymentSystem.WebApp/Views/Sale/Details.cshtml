@@ -1,0 +1,98 @@
+﻿@model BonusPaymentSystem.Core.Model.Sale
+
+@{
+    ViewData["Title"] = "Detalle de Venta";
+}
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-body">
+                <p class="card-title mb-0">@ViewData["Title"] </p>
+                <div class="table-responsive">
+                    <table class="table table-striped table-borderless">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    @Html.DisplayNameFor(model => model.Id)
+                                </td>
+                                <td class="font-weight-bold" ">
+                                    @Html.DisplayFor(model => model.Id)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    @Html.DisplayNameFor(model => model.Amount)
+                                </td>
+                                <td class="font-weight-bold" ">
+                                    @Html.DisplayFor(model => model.Amount)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    @Html.DisplayNameFor(model => model.Rate)
+                                </td>
+                                <td class="font-weight-bold" ">
+                                    @Html.DisplayFor(model => model.Rate)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    @Html.DisplayNameFor(model => model.Term)
+                                </td>
+                                <td class="font-weight-bold" ">
+                                    @Html.DisplayFor(model => model.Term)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    @Html.DisplayNameFor(model => model.CreatedOn)
+                                </td>
+                                <td class="font-weight-bold" ">
+                                    @Html.DisplayFor(model => model.CreatedOn)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    @Html.DisplayNameFor(model => model.ReferenceCode)
+                                </td>
+                                <td class="font-weight-bold" ">
+                                    @Html.DisplayFor(model => model.ReferenceCode)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    @Html.DisplayNameFor(model => model.UpdatedOn)
+                                </td>
+                                <td class="font-weight-bold" ">
+                                    @Html.DisplayFor(model => model.UpdatedOn)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    @Html.DisplayNameFor(model => model.State)
+                                </td>
+                                <td class="font-weight-bold" ">
+                                    @if (Model.State == 1)
+                                    {
+                                        <label class="badge badge-warning">Incentivo Pendiente</label>
+                                    }
+                                    @if (Model.State == 3)
+                                    {
+                                        <label class="badge badge-success">Incentivo Pagado</label>
+                                    }
+                                    @if (Model.State != 3 && Model.State != 1)
+                                    {
+                                        <label class="badge badge-danger">Venta No Completada</label>
+                                    }
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="row">
+                    <a asp-action="Index" asp-controller="Sale">Regresar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

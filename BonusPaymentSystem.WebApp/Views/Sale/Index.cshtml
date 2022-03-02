@@ -1,0 +1,94 @@
+﻿@model IEnumerable<BonusPaymentSystem.Core.Model.Sale>
+
+@{
+    ViewData["Title"] = "Ventas";
+}
+
+
+<div class="card">
+    <div class="card-body">
+        <h4 class="card-title">@ViewData["Title"]</h4>
+        <p class="card-description">
+            <a asp-action="Create" class="btn btn-primary">Realizar una venta</a>
+        </p>
+
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            Id
+                        </th>
+                        <th>
+                            Campaña Id
+                        </th>
+                        <th>
+                            Fecha de Venta
+                        </th>
+                        <th>
+                            Monto
+                        </th>
+                        <th>
+                            Tasa
+                        </th>
+                        <th>
+                            Plazo (meses)
+                        </th>
+                        <th>
+                            Transferencia Bonificaciación
+                        </th>
+                        <th>
+                            Estatus
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Id)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CampaingId)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CreatedOn)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Amount)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Rate)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Term)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ReferenceCode)
+                        </td>
+                        <td>
+                            @if (item.State == 1)
+                            {
+                                <label class="badge badge-warning">Incentivo Pendiente</label>
+                            }
+                            @if (item.State == 3)
+                            {
+                                <label class="badge badge-success">Incentivo Pagado</label>
+                            }
+                            @if (item.State != 3 && item.State != 1)
+                            {
+                                <label class="badge badge-danger">Venta No realizada</label>
+                            }
+                        </td>
+                        <td>
+                            @Html.ActionLink("Ver", "Details", new { id = item.Id })
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
