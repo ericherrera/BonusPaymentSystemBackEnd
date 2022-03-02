@@ -13,7 +13,8 @@ namespace BonusPaymentSystem.Core.Model
     {
         [Key]
         public int Id { get; set; }
-        public int SaleId { get; set; }
+        public string SaleId { get; set; }
+        public int SaleIdFinal { get; set; }
         public string UserId { get; set; }
         public int CampaingId { get; set; }
         public decimal Amount { get; set; }

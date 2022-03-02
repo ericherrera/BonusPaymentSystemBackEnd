@@ -140,7 +140,7 @@ namespace BonusPaymentSystem.WebApp.Controllers
                 }
 
 
-                var localPayment = _paymentService.Get(p => p.SaleId == sale.Id && p.State == ((int)Status.PAYOFF));
+                var localPayment = _paymentService.Get(p => p.SaleIdFinal == sale.Id && p.State == ((int)Status.PAYOFF));
                 if (localPayment.Any())
                 {
                     ModelState.AddModelError(string.Empty, "Esta venta recibio su bonificación, y no puede ser modificada!");

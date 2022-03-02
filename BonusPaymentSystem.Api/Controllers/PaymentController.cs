@@ -143,14 +143,14 @@ namespace BonusPaymentSystem.Api.Controllers
                     }
                     
                     //Validar si la venta ya fue pagada
-                    var localPayment = _paymentService.Get(p => p.SaleId == sale.Id);
+                    var localPayment = _paymentService.Get(p => p.SaleIdFinal == sale.Id);
                     if (localPayment.Any())
                     {
                         localResponse.PaymentStatusList.Add(new BaseResponse
                         {
                             CampaingId = localPayment.FirstOrDefault().CampaingId,
                             PaymentId = localPayment.FirstOrDefault().Id,
-                            SaleId = localPayment.FirstOrDefault().SaleId,
+                            SaleId = localPayment.FirstOrDefault().SaleIdFinal,
                             SallerId = localPayment.FirstOrDefault().UserId,
                             ReferenceCode = localPayment.FirstOrDefault().ReferenceCode,
                             Message = message.Append("the payment was payoff in " + localPayment.FirstOrDefault().PaymentDate.ToString("dd-MM-yyy hh:mm:ss")).ToString(),
@@ -222,7 +222,8 @@ namespace BonusPaymentSystem.Api.Controllers
                             var payoff = new Payment
                             {
                                  CampaingId = payment.CampaingId,
-                                 SaleId = sale.Id,
+                                 SaleId = saller.Id,
+                                 SaleIdFinal = sale.Id,
                                  PaymentDate = DateTime.Now,
                                  Amount = profit.Value,
                                  ReferenceCode = result.Data.TransactionId,
@@ -288,7 +289,7 @@ namespace BonusPaymentSystem.Api.Controllers
                     return StatusCode(HtmlStatusCode.CLIENT_ERROR_CONFLICT, response);
                 }
 
-                var sale = _saleService.Get(item.SaleId);
+                var sale = _saleService.Get(item.SaleIdFinal);
                 if (sale == null)
                 {
                     response.Messsage = message.Append(" the sale doesn't exist or sale payoff!").ToString();

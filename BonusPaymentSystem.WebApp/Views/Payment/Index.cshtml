@@ -1,89 +1,187 @@
-﻿@model IEnumerable<BonusPaymentSystem.Core.Model.Payment>
+﻿@model BonusPaymentSystem.WebApp.Models.SalePaymentViewModel
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Bonificaciones";
 }
 
-<h1>Index</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Id)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SaleId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UserId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CampaingId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Amount)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SavingAccountFrom)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SavingAccountTo)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ReferenceCode)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PaymentDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.State)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SaleId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UserId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CampaingId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Amount)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SavingAccountFrom)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SavingAccountTo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ReferenceCode)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PaymentDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.State)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-            </td>
-        </tr>
+@if(Model.Sales.Any())
+{ 
+    <div class="row">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Ventas Pendientes de Pago Bonificación </h4>
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Id
+                                </th>
+                                <th>
+                                    Campaña Id
+                                </th>
+                                <th>
+                                    Fecha de Venta
+                                </th>
+                                <th>
+                                    Monto
+                                </th>
+                                <th>
+                                    Tasa
+                                </th>
+                                <th>
+                                    Plazo (meses)
+                                </th>
+                                <th>
+                                    Transferencia Bonificaciación
+                                </th>
+                                <th>
+                                    Estatus
+                                </th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.Sales)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Id)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.CampaingId)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.CreatedOn)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Amount)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Rate)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Term)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ReferenceCode)
+                                    </td>
+                                    <td>
+                                        @if (item.State == 1)
+                                        {
+                                            <label class="badge badge-warning">Incentivo Pendiente</label>
+                                        }
+                                        @if (item.State == 3)
+                                        {
+                                            <label class="badge badge-success">Incentivo Pagado</label>
+                                        }
+                                        @if (item.State != 3 && item.State != 1)
+                                        {
+                                            <label class="badge badge-danger">Venta No realizada</label>
+                                        }
+                                    </td>
+                                    <td>
+                                        @if (item.State == 1)
+                                        {
+                                            @Html.ActionLink("Pagar", "Pay", new { id = item.Id })
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 }
-    </tbody>
-</table>
+<div class="row">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">@ViewData["Title"]</h4>
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                                Id
+                            </th>
+                            <th>
+                                Campaña Id
+                            </th>
+                            <th>
+                                Venta Id
+                            </th>
+                            <th>
+                                Monto Bonificación
+                            </th>
+                            <th>
+                                Cuenta Origen
+                            </th>
+                            <th>
+                                Cuenta Destino
+                            </th>
+                            <th>
+                                Comprobante AFI Hogar
+                            </th>
+                            <th>
+                                Fecha de Pago
+                            </th>
+                            <th>
+                                Estatus
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Payments)
+                        {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Id)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CampaingId)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.SaleIdFinal)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Amount)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.SavingAccountFrom)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.SavingAccountTo)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ReferenceCode)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.PaymentDate)
+                            </td>
+                            <td>
+                                @if (item.State == 1)
+                                {
+                                    <label class="badge badge-warning">Pendiente</label>
+                                }
+                                @if (item.State == 3)
+                                {
+                                    <label class="badge badge-success">Pagado</label>
+                                }
+                                @if (item.State != 3 && item.State != 1)
+                                {
+                                    <label class="badge badge-danger">En Observación</label>
+                                }
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

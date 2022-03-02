@@ -37,12 +37,15 @@ namespace BonusPaymentSystem.WebApp.Controllers
 
         public ActionResult Index()
         {
+            var model = new SalePaymentViewModel
+            {
+                Payments = _paymentService.Get(p => p.State == (int)Status.PAYOFF),
+                Sales = _saleService.Get(p => p.State == (int)Status.ACTIVE)
 
-            return View(_saleService.Get());
+            };
+            return View(model);
         }
 
-
-        // GET: PaymentController/Details/5
         public async Task<ActionResult> Pay(int id)
         {
             try
@@ -63,7 +66,7 @@ namespace BonusPaymentSystem.WebApp.Controllers
 
                 var sale = _saleService.Get(id);
                 var campaing = _campaingService.Get(sale.CampaingId.Value);
-                var saller = _userService.Get(sale.UserId);
+                var saller = _userService.Get(p => p.Id == sale.UserId).FirstOrDefault();
                 var profit = BonusCalculation.CalcBonusPayment(sale.Amount.Value, campaing.Amount, campaing.ProfitRate.Value);
                 var payerUser = _userService.Get(User.Identity.Name);
 
@@ -114,7 +117,8 @@ namespace BonusPaymentSystem.WebApp.Controllers
                     var payoff = new Payment
                     {
                         CampaingId = campaing.Id,
-                        SaleId = sale.Id,
+                        SaleId = saller.Id,
+                        SaleIdFinal = sale.Id,
                         PaymentDate = DateTime.Now,
                         Amount = profit,
                         ReferenceCode = result.Data.TransactionId,
@@ -127,12 +131,15 @@ namespace BonusPaymentSystem.WebApp.Controllers
 
                     _paymentService.Add(payoff);
 
+
+                    sale.State = (int)Status.PAYOFF;
+                    _saleService.Update(sale);
+
                 }
             }
             catch
             {
                 ModelState.AddModelError(string.Empty, "Error! procesando su solicitud, favor intente de nuevo o consulte con el admninistrador");
-                return View();
             }
 
 
