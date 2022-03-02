@@ -97,7 +97,8 @@ namespace BonusPaymentSystem.WebApp.Controllers
             }
             catch
             {
-                return View();
+                ModelState.AddModelError(string.Empty, "Error! procesando su solicitud");
+                return View(modalUser);
             }
         }
 
@@ -146,7 +147,8 @@ namespace BonusPaymentSystem.WebApp.Controllers
             }
             catch
             {
-                return Redirect("/Error");
+                ModelState.AddModelError(string.Empty, "Error! procesando su solicitud");
+                return  View(modalUser);
             }
         }
 
