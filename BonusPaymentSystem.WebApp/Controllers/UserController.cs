@@ -178,6 +178,12 @@ namespace BonusPaymentSystem.WebApp.Controllers
                 ModelState.AddModelError(string.Empty, "Contraseña nueva no coincide con confirmar contraseña nueva");
                 return View(model);
             }
+
+            if (model.UsernName != User.Identity.Name)
+            {
+                ModelState.AddModelError(string.Empty, "Este usuario no es el mismo que el usuario logeado");
+                return View(model);
+            }
             try
             {
 
@@ -189,9 +195,9 @@ namespace BonusPaymentSystem.WebApp.Controllers
                     return View(model);
                 }
 
-                if (await _userManager.CheckPasswordAsync(user, model.CurrentPassword))
+                if (!(await _userManager.CheckPasswordAsync(user, model.CurrentPassword)))
                 {
-                    ModelState.AddModelError(string.Empty, "Usuario no encontrado");
+                    ModelState.AddModelError(string.Empty, "Contraseña actual incorrecta");
                     return View(model);
                 }
 
@@ -201,7 +207,8 @@ namespace BonusPaymentSystem.WebApp.Controllers
             }
             catch
             {
-                return Redirect("/Error");
+                ModelState.AddModelError(string.Empty, "Error procesando su solicitud");
+                return View(model);
             }
 
         }

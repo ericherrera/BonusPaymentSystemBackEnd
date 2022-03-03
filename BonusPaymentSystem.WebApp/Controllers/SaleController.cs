@@ -72,8 +72,8 @@ namespace BonusPaymentSystem.WebApp.Controllers
                     return View(model);
                 }
 
-                if (model.Rate < campaing.MinAllowedRate || model.Amount < campaing.MinAllowedAmount || model.Term < campaing.MinTerm ||
-                    model.Rate > campaing.MaxAllowedRate || model.Amount > campaing.Amount || model.Term > campaing.MaxTerm)
+                if (model.Rate < campaing.MinAllowedRate  || model.Term < campaing.MinTerm || model.Amount < campaing.MinAllowedAmount ||
+                    model.Rate > campaing.MaxAllowedRate || model.Term > campaing.MaxTerm)
                 {
                     ModelState.AddModelError(string.Empty, "Debe cumplir con los montos / plazos maximo y minimos de la Campaña!");
                     return View(model);

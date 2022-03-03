@@ -5,6 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
+using BonusPaymentSystem.Core.Constants;
+using BonusPaymentSystem.Core.Model;
+using BonusPaymentSystem.Service.Interfaces;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -21,6 +24,7 @@ namespace BonusPaymentSystem.WebApp.Areas.Identity.Pages.Account
     {
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly UserManager<IdentityUser> _userManager;
+        private readonly IUserApplicationService _userService;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
 
@@ -28,12 +32,14 @@ namespace BonusPaymentSystem.WebApp.Areas.Identity.Pages.Account
             UserManager<IdentityUser> userManager,
             SignInManager<IdentityUser> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            IUserApplicationService userService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+            _userService = userService;
         }
 
         [BindProperty]
@@ -45,12 +51,12 @@ namespace BonusPaymentSystem.WebApp.Areas.Identity.Pages.Account
 
         public class InputModel
         {
-            [Required]
+            [Required(ErrorMessage = "Correo actual requerido.")]
             [EmailAddress]
-            [Display(Name = "Usuario/Correo")]
+            [Display(Name = "Correo")]
             public string Email { get; set; }
 
-            [Required]
+            [Required(ErrorMessage = "Contraseña requerida")]
             [StringLength(100, ErrorMessage = "El {0} debe tener al menos {2} y un maximo de {1} caracteres.", MinimumLength = 6)]
             [DataType(DataType.Password)]
             [Display(Name = "Contraseña")]
@@ -60,6 +66,23 @@ namespace BonusPaymentSystem.WebApp.Areas.Identity.Pages.Account
             [Display(Name = "Confirmar Contraseña")]
             [Compare("Password", ErrorMessage = "Contraseña y confirmar contraseña no coinciden.")]
             public string ConfirmPassword { get; set; }
+
+            [Required(ErrorMessage = "Codigo Empleado requerido.")]
+            [Display(Name = "Codigo Empleado")]
+            public string EmployeeCode { get; set; }
+
+            [Required(ErrorMessage = "Nombre requerido.")]
+            [Display(Name = "Nombre")]
+            public string FirstName { get; set; }
+
+            [Required(ErrorMessage = "Apellido requerido.")]
+            [Display(Name = "Apellido")]
+            public string LastName { get; set; }
+
+            [Required(ErrorMessage = "Número de Cuenta actual requerido.")]
+            [Display(Name = "Número de Cuenta")]
+            public string BankAccount { get; set; }
+
         }
 
         public async Task OnGetAsync(string returnUrl = null)
@@ -74,10 +97,18 @@ namespace BonusPaymentSystem.WebApp.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = new IdentityUser { UserName = Input.Email, Email = Input.Email };
+                var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email , EmailConfirmed = true};
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
+                    user.LastName = Input.LastName;
+                    user.FirstName = Input.FirstName;
+                    user.EmployeeCode = Input.EmployeeCode;
+                    user.BankAccount = Input.BankAccount;
+                    user.Status = (int) Status.ACTIVE;
+
+                    _userService.Update(user);
+
                     _logger.LogInformation("Usuario Creado Exitosamente.");
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
@@ -89,7 +120,7 @@ namespace BonusPaymentSystem.WebApp.Areas.Identity.Pages.Account
                         protocol: Request.Scheme);
 
                     await _emailSender.SendEmailAsync(Input.Email, "Confirmar su correo",
-                        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                        $"Por favor confirmar su correo en <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clic aqui</a>.");
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {
