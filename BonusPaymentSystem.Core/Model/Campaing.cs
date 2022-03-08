@@ -24,9 +24,9 @@ namespace BonusPaymentSystem.Core.Model
         public DateTime? UpdatedOn { get; set; }
         [Display(Name = "Nombre de Campaña")]
         public string Name { get; set; }
-        [Display(Name = "Fecha de Incio")]
+        [Display(Name = "Fecha Inicio")]
         public DateTime StartedDate { get; set; }
-        [Display(Name = "Fecha de Fin Por")]
+        [Display(Name = "Fecha Fin Por")]
         public DateTime EnddDate { get; set; }
         [Display(Name = "Monto")]
         public decimal Amount { get; set; }

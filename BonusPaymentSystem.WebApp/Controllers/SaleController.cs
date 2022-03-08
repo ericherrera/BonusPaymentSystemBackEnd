@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace BonusPaymentSystem.WebApp.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin,Saller,Payer")]
     public class SaleController : Controller
     {
         private readonly IGenericService<Sale> _saleService;

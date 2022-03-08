@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace BonusPaymentSystem.WebApp.Controllers
 {
-    [Authorize]
+    [Authorize(Roles ="Admin")]
     public class ParameterController : Controller
     {
         private readonly IGenericService<Parameter> _parameterServiceg;

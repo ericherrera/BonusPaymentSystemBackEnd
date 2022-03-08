@@ -25,12 +25,14 @@ namespace BonusPaymentSystem.WebApp.Controllers
             _userService = userService;
         }
 
+        [Authorize(Roles = "Admin")]
         // GET: UserController
         public ActionResult Index()
         {
             return View(_userService.Get());
         }
 
+        [Authorize(Roles = "Admin")]
         // GET: UserController/Details/5
         public ActionResult Details(string id)
         {
@@ -40,16 +42,18 @@ namespace BonusPaymentSystem.WebApp.Controllers
             return View(_userService.Get(id));
         }
 
+        [Authorize(Roles = "Admin")]
         // GET: UserController/Create
         public ActionResult Create()
         {
-            return View(new ApplicationUser());
+            return View(new UserViewModel());
         }
 
+        [Authorize(Roles = "Admin")]
         // POST: UserController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(ApplicationUser modalUser)
+        public async Task<ActionResult> Create(UserViewModel modalUser)
         {
             if (modalUser == null || string.IsNullOrEmpty(modalUser.UserName) || string.IsNullOrEmpty(modalUser.PasswordHash))
             {
@@ -93,6 +97,8 @@ namespace BonusPaymentSystem.WebApp.Controllers
 
                 _userService.Update(user);
 
+                await _userManager.AddToRoleAsync(user, modalUser.RolName);
+
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -135,6 +141,12 @@ namespace BonusPaymentSystem.WebApp.Controllers
                     return View(modalUser);
                 }
 
+                if (modalUser.UserName != User.Identity.Name)
+                {
+                    ModelState.AddModelError(string.Empty, "Este usuario no es el mismo que el usuario logeado");
+                    return View(modalUser);
+                }
+
                 user.FirstName = modalUser.FirstName;
                 user.LastName = modalUser.LastName;
                 user.EmployeeCode = modalUser.EmployeeCode;
@@ -143,7 +155,8 @@ namespace BonusPaymentSystem.WebApp.Controllers
 
                 _userService.Update(user);
 
-                return RedirectToAction(nameof(Index));
+
+               return RedirectToAction("Index","Home");
             }
             catch
             {

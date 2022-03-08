@@ -1,4 +1,4 @@
-﻿@model BonusPaymentSystem.Core.Model.ApplicationUser
+﻿@model BonusPaymentSystem.WebApp.Models.UserViewModel
 
 @{
     ViewData["Title"] = "Crear Usuario";
@@ -15,6 +15,16 @@
                         <label asp-for="UserName" class="control-label"></label>
                         <input asp-for="UserName" class="form-control" />
                         <span asp-validation-for="UserName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="RolName" class="control-label"></label>
+                        @Html.DropDownList("RolName", new List<SelectListItem>
+                                                        {
+                                                            new SelectListItem {Text = "Vendedor", Value = "Saller" },
+                                                            new SelectListItem {Text = "Pago Bonificación", Value = "Payer" },
+                                                            new SelectListItem {Text = "Administrador", Value = "Admin" },
+                                                        }, "Seleccionar", new { @class = "form-control" })
+                        <span asp-validation-for="RolName" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="PasswordHash" class="control-label"></label>

@@ -99,6 +99,8 @@ namespace BonusPaymentSystem.WebApp.Areas.Identity.Pages.Account
             {
                 var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email , EmailConfirmed = true};
                 var result = await _userManager.CreateAsync(user, Input.Password);
+                await _userManager.AddToRoleAsync(user, "Saller");
+
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("Usuario Creado Exitosamente.");

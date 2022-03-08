@@ -11,6 +11,8 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using BonusPaymentSystem.Core.Data;
 
 namespace BonusPaymentSystem.WebApp.Areas.Identity.Pages.Account
 {
@@ -58,6 +60,7 @@ namespace BonusPaymentSystem.WebApp.Areas.Identity.Pages.Account
 
         public async Task OnGetAsync(string returnUrl = null)
         {
+
             if (!string.IsNullOrEmpty(ErrorMessage))
             {
                 ModelState.AddModelError(string.Empty, ErrorMessage);
@@ -86,6 +89,19 @@ namespace BonusPaymentSystem.WebApp.Areas.Identity.Pages.Account
                 var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
+                    /*
+                    var roleStore = new RoleStore<IdentityRole>(new BpsIdentityContext("Server=LAP0301TRD028;Database=aspnet-BonusPaymentSystem.WebApp-FC57C467-C923-4625-9566-C0480FBD760A;Trusted_Connection=True;MultipleActiveResultSets=true")); //Pass the instance of your DbContext here
+                    var roleManager = new RoleManager<IdentityRole>(roleStore, null, null, null, null);
+
+                    await roleManager.CreateAsync(new IdentityRole { Name = "Admin" });
+                    await roleManager.CreateAsync(new IdentityRole { Name = "Saller" });
+                    await roleManager.CreateAsync(new IdentityRole { Name = "Payer" });
+                    
+                    var user = await _userManager.FindByNameAsync(Input.Email);
+
+                    await _userManager.AddToRoleAsync(user, "Admin");
+                    */
+                    
                     _logger.LogInformation("User logged in.");
                     return LocalRedirect(returnUrl);
                 }
