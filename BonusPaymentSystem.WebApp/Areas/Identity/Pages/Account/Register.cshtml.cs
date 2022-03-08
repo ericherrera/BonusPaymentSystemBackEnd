@@ -101,6 +101,8 @@ namespace BonusPaymentSystem.WebApp.Areas.Identity.Pages.Account
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
+                    _logger.LogInformation("Usuario Creado Exitosamente.");
+
                     user.LastName = Input.LastName;
                     user.FirstName = Input.FirstName;
                     user.EmployeeCode = Input.EmployeeCode;
@@ -109,7 +111,7 @@ namespace BonusPaymentSystem.WebApp.Areas.Identity.Pages.Account
 
                     _userService.Update(user);
 
-                    _logger.LogInformation("Usuario Creado Exitosamente.");
+                    _logger.LogInformation("Usuario Actualizado Exitosamente.");
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
@@ -134,6 +136,11 @@ namespace BonusPaymentSystem.WebApp.Areas.Identity.Pages.Account
                 }
                 foreach (var error in result.Errors)
                 {
+                    if (error.Code == "DuplicateUserName")
+                        error.Description = $"Username '{Input.Email}' ya existe.";
+                    else if (error.Code == "DuplicateEmail")
+                        error.Description = $"Correo '{Input.Email}' ya existe.";
+
                     ModelState.AddModelError(string.Empty, error.Description);
                 }
             }

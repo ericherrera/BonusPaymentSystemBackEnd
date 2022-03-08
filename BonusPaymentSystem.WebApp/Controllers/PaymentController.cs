@@ -133,6 +133,9 @@ namespace BonusPaymentSystem.WebApp.Controllers
 
 
                     sale.State = (int)Status.PAYOFF;
+                    sale.ReferenceCode = payoff.ReferenceCode;
+                    sale.UpdatedOn = DateTimeOffset.Now;
+
                     _saleService.Update(sale);
 
                 }
