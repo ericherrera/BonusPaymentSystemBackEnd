@@ -24,13 +24,25 @@ namespace BonusPaymentSystem.Core.Data
         {
             return SqlServerDbContextOptionsExtensions.UseSqlServer(new DbContextOptionsBuilder(), connectionString).Options;
         }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<UserCampaing>()
+                .HasKey(nameof(UserCampaing.CampaingId), nameof(UserCampaing.SallerId));
+        }
+
         public DbSet<ApplicationUser> AppUsers { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<UserCampaing>  UserCampaings { get; set; }
         public DbSet<Campaing> Campaings { get; set; }
         public DbSet<Payment> Payments { get; set; }
         public DbSet<Parameter> Parmeters { get; set; }
         public DbSet<Sale> Sales { get; set; }
+        public DbSet<Rol> Rols { get; set; }
+        //public DbSet<RoleUser> RoleUsers { get; set; }
         public DbSet<RoleClaim> RoleClaims { get; set; }
         public DbSet<Login> Logins { get; set; }
+
+
     }
 }

@@ -13,6 +13,8 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using BonusPaymentSystem.Core.Data;
+using BonusPaymentSystem.Service.Interfaces;
+using BonusPaymentSystem.Core.Constants;
 
 namespace BonusPaymentSystem.WebApp.Areas.Identity.Pages.Account
 {
@@ -21,15 +23,18 @@ namespace BonusPaymentSystem.WebApp.Areas.Identity.Pages.Account
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly IUserApplicationService _userService;
         private readonly ILogger<LoginModel> _logger;
 
         public LoginModel(SignInManager<IdentityUser> signInManager, 
             ILogger<LoginModel> logger,
-            UserManager<IdentityUser> userManager)
+            UserManager<IdentityUser> userManager,
+            IUserApplicationService userService )
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
+            _userService = userService;
         }
 
         [BindProperty]
@@ -84,6 +89,13 @@ namespace BonusPaymentSystem.WebApp.Areas.Identity.Pages.Account
         
             if (ModelState.IsValid)
             {
+                var user = _userService.Get(Input.Email);
+                if (user != null && user.Status == (int) Status.INACTIVE) 
+                {
+                    _logger.LogWarning("Usuario inactivo, consulte con el administrador.");
+                    return Page();
+                }
+
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
                 var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);

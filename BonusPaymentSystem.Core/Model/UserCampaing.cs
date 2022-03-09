@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -9,8 +8,10 @@ using System.Threading.Tasks;
 
 namespace BonusPaymentSystem.Core.Model
 {
-    [Table("AspNetUserRoles")]
-    public class Rol : IdentityRole
+    [Table("UserCampaings")]
+    public class UserCampaing
     {
+        public int CampaingId { get; set; }
+        public string SallerId { get; set; }
     }
 }

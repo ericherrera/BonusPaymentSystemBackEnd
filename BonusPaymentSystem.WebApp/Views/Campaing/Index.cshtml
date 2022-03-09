@@ -66,7 +66,8 @@
                             </td>
                             <td>
                                 @Html.ActionLink("Editar", "Edit", new { id = item.Id }) |
-                                @Html.ActionLink("Ver", "Details", new { id = item.Id })
+                                @Html.ActionLink("Ver", "Details", new { id = item.Id }) |
+                                @Html.ActionLink("Assignar", "GetAllSaller", new { campaingId = item.Id })
                             </td>
                         </tr>
                     }

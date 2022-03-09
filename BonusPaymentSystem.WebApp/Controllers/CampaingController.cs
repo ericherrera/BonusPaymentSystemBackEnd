@@ -1,5 +1,7 @@
-﻿using BonusPaymentSystem.Core.Model;
+﻿using BonusPaymentSystem.Core.Constants;
+using BonusPaymentSystem.Core.Model;
 using BonusPaymentSystem.Service.Interfaces;
+using BonusPaymentSystem.WebApp.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -16,11 +18,13 @@ namespace BonusPaymentSystem.WebApp.Controllers
             
         private readonly IGenericService<Campaing> _campaingServiceg;
         private readonly IUserApplicationService _userService;
+        private readonly IUserCampaingService _userCampaingService;
 
-        public CampaingController(IGenericService<Campaing> campaingServiceg, IUserApplicationService userService)
+        public CampaingController(IGenericService<Campaing> campaingServiceg, IUserApplicationService userService, IUserCampaingService userCampaingService)
         {
             _campaingServiceg = campaingServiceg;
             _userService = userService;
+            _userCampaingService = userCampaingService;
         }
 
         // GET: CampaingController
@@ -143,6 +147,45 @@ namespace BonusPaymentSystem.WebApp.Controllers
                 ModelState.AddModelError(string.Empty, "Ocurrio un error procesando su solicitud");
                 return Redirect("/Error");
             }
+        }
+
+        public ActionResult GetAllSaller(int campaingId)
+        {
+            if (campaingId < 1)
+            {
+                ModelState.AddModelError(string.Empty, $"Numero de campaña [{ campaingId }] invalido!");
+                return View();
+            }
+            if (!_campaingServiceg.Exist(campaingId))
+            {
+                ModelState.AddModelError(string.Empty, $"La campaña [{ campaingId }] no existe!");
+                return View();
+            }
+
+            var list = _userService.GetAllUserActiveWithRole(RolNames.SALLER);
+            var list2 = _userService.GetAllUserWithCampaing(campaingId);
+            var userList = new UserCampaingViewModel
+            {
+                CampaingId = campaingId,
+                UserAvailableForCampaing = list,
+                UserAvailableInCampaing = list2
+            };
+
+            return View(userList);
+        }
+
+        public ActionResult AssginToCampaing(int campaingId, string userId)
+        {
+
+            var userCampaing = new UserCampaing
+            {
+                 CampaingId = campaingId,
+                 SallerId = userId
+            };
+
+            _userCampaingService.Add(userCampaing);
+
+            return RedirectToAction("GetAllSaller", "Campaing", new { campaingId  = campaingId });
         }
 
     }

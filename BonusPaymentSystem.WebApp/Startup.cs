@@ -82,6 +82,8 @@ namespace BonusPaymentSystem.WebApp
             services.AddScoped<IGenericService<Sale>, SaleService>(prop => new SaleService(Configuration.GetConnectionString(ConnectionString)));
             services.AddScoped<IGenericService<Payment>, PaymentService>(prop => new PaymentService(Configuration.GetConnectionString(ConnectionString)));
             services.AddScoped<IGenericService<Parameter>, ParameterService>(prop => new ParameterService(Configuration.GetConnectionString(ConnectionString)));
+            services.AddScoped<IGenericServiceId<Rol>, RolService>(prop => new RolService(Configuration.GetConnectionString(ConnectionString)));
+            services.AddScoped<IUserCampaingService, UserCampaingService>(prop => new UserCampaingService(Configuration.GetConnectionString(ConnectionString)));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

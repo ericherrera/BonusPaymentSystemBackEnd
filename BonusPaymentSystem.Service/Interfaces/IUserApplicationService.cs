@@ -22,5 +22,7 @@ namespace BonusPaymentSystem.Service.Interfaces
         void Delete(string userName);
         long Count();
         void AddNotStorage(ApplicationUser client);
+        IEnumerable<ApplicationUser> GetAllUserActiveWithRole(string roleName);
+        IEnumerable<ApplicationUser> GetAllUserWithCampaing(int campaingId);
     }
 }

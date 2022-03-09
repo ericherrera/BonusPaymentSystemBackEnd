@@ -1,4 +1,5 @@
-﻿using BonusPaymentSystem.Core.Data;
+﻿using BonusPaymentSystem.Core.Constants;
+using BonusPaymentSystem.Core.Data;
 using BonusPaymentSystem.Core.Model;
 using BonusPaymentSystem.Service.Interfaces;
 using Microsoft.AspNetCore.Identity;
@@ -83,6 +84,26 @@ namespace BonusPaymentSystem.Service
         {
             _dbContext.Update(client);
             _dbContext.SaveChanges();
+        }
+
+        public IEnumerable<ApplicationUser> GetAllUserActiveWithRole(string roleName)
+        {
+            return (from user in _dbContext.AppUsers
+                        /*join userRole in _dbContext.RoleUsers
+                        on user.Id equals userRole.UserId
+                        join role in _dbContext.Rols
+                        on userRole.RoleId equals role.Id*/
+                    where /*role.Name == roleName &&*/ user.Status == (int)Status.ACTIVE
+                    select user).AsEnumerable();
+        }
+
+        public IEnumerable<ApplicationUser> GetAllUserWithCampaing(int campaingId)
+        {
+            return (from user in _dbContext.AppUsers
+                    join userCampaing in _dbContext.UserCampaings
+                    on user.Id equals userCampaing.SallerId
+                    where userCampaing.CampaingId == campaingId
+                    select user).AsEnumerable();
         }
     }
 }

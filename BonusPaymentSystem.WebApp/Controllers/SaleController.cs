@@ -18,13 +18,17 @@ namespace BonusPaymentSystem.WebApp.Controllers
         private readonly IUserApplicationService _userService;
         private readonly IGenericService<Campaing> _campaingService;
         private readonly IGenericService<Payment> _paymentService;
+        private readonly IUserCampaingService _userCampaingService;
 
-        public SaleController(IGenericService<Sale> saleService, IUserApplicationService userService, IGenericService<Campaing> campaingService, IGenericService<Payment> paymentService)
+        public SaleController(IGenericService<Sale> saleService, IUserApplicationService userService, 
+                        IGenericService<Campaing> campaingService, IGenericService<Payment> paymentService,
+                        IUserCampaingService userCampaingService)
         {
             _saleService = saleService;
             _userService = userService;
             _campaingService = campaingService;
             _paymentService = paymentService;
+            _userCampaingService = userCampaingService;
         }
 
         public ActionResult Index()
@@ -78,8 +82,23 @@ namespace BonusPaymentSystem.WebApp.Controllers
                     ModelState.AddModelError(string.Empty, "Debe cumplir con los montos / plazos maximo y minimos de la Campaña!");
                     return View(model);
                 }
+
+                var user = _userService.Get(User.Identity.Name);
+
+                if (user == null)
+                {
+                    ModelState.AddModelError(string.Empty, "Usted no es un vendedor autorizado!");
+                    return View(model);
+                }
+
+                if (!_userCampaingService.Exist(user.Id, campaing.Id))
+                {
+                    ModelState.AddModelError(string.Empty, "Usted no esta asignado a esta campaña!");
+                    return View(model);
+                }
+
                 model.CreatedOn = DateTimeOffset.Now;
-                model.UserId = _userService.Get(User.Identity.Name).Id;
+                model.UserId = user.Id;
 
                 _saleService.Add(model);
 

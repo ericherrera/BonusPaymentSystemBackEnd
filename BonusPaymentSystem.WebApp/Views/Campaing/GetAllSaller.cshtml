@@ -1,0 +1,76 @@
+﻿@model BonusPaymentSystem.WebApp.Models.UserCampaingViewModel
+@{
+    ViewData["Title"] = "Asignar Vendedor a Campaña";
+}
+
+<div class="card">
+    <div class="card-body">
+        <h4 class="card-title">@ViewData["Title"]</h4>
+
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            Codigo Empleado
+                        </th>
+                        <th>
+                            Usuario
+                        </th>
+                        <th>
+                            Nombre
+                        </th>
+                        <th>
+                            Apellido
+                        </th>
+                        <th>
+                            Cuenta Bancaria
+                        </th>
+                        <th>
+                            Estatus
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.UserAvailableForCampaing)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.EmployeeCode)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.UserName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.FirstName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.LastName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.BankAccount)
+                            </td>
+                            <td>
+                                @if (!Model.UserAvailableInCampaing.Any(p => p.Id == item.Id))
+                                {
+                                    <label class="badge badge-success">Assignado</label>
+                                }
+                                else
+                                {
+                                    <label class="badge badge-warning">Pendiente</label>
+                                }
+                            </td>
+                            <td>
+                                @if (!Model.UserAvailableInCampaing.Any(p => p.Id == item.Id))
+                                {
+                                    @Html.ActionLink("Asingnar", "AssginToCampaing", new { campaingId = Model.CampaingId, userId = item.Id })
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
