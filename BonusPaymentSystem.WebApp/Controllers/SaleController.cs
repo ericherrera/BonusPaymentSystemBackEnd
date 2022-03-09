@@ -1,6 +1,7 @@
 ﻿using BonusPaymentSystem.Core.Constants;
 using BonusPaymentSystem.Core.Model;
 using BonusPaymentSystem.Service.Interfaces;
+using BonusPaymentSystem.WebApp.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -35,7 +36,13 @@ namespace BonusPaymentSystem.WebApp.Controllers
         {
             var saller = _userService.Get(User.Identity.Name);
 
-            return View(_saleService.Get(p => p.UserId == saller.Id));
+            var viewSale = new SaleListViewModel
+            { 
+                HasOneCampaing = _userCampaingService.Exist(saller.Id),
+                Sales = _saleService.Get(p => p.UserId == saller.Id)
+            };
+
+            return View(viewSale);
         }
 
         // GET: SaleController/Details/5
@@ -53,13 +60,21 @@ namespace BonusPaymentSystem.WebApp.Controllers
         // GET: SaleController/Create
         public ActionResult Create()
         {
-            return View(new Sale());
+            var sale = new SaleViewModel();
+
+            var saller = _userService.Get(User.Identity.Name);
+            var campaingSaller = _userCampaingService.Get(p => p.SallerId == saller.Id).ToArray();
+            var campaings =  _campaingService.Get(p => p.State == (int)Status.ACTIVE);
+
+            sale.CampaingsActived = campaings.Where(p => p.State == (int) Status.ACTIVE  && campaingSaller.Any(y => y.CampaingId == p.Id )).ToDictionary(x => x.Id, y => y.Name);
+
+            return View(sale);
         }
 
         // POST: SaleController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Sale model)
+        public ActionResult Create(SaleViewModel model)
         {
             if (model == null || model.Term<0 || model.Amount < 0 || model.Id > 0)
             {

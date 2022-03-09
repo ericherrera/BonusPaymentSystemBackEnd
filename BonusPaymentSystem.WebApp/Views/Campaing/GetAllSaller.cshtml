@@ -54,11 +54,11 @@
                             <td>
                                 @if (!Model.UserAvailableInCampaing.Any(p => p.Id == item.Id))
                                 {
-                                    <label class="badge badge-success">Assignado</label>
+                                    <label class="badge badge-warning">Pendiente</label>
                                 }
                                 else
                                 {
-                                    <label class="badge badge-warning">Pendiente</label>
+                                    <label class="badge badge-success">Assignado</label>
                                 }
                             </td>
                             <td>

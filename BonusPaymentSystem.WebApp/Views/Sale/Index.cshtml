@@ -1,4 +1,4 @@
-﻿@model IEnumerable<BonusPaymentSystem.Core.Model.Sale>
+﻿@model BonusPaymentSystem.WebApp.Models.SaleListViewModel
 
 @{
     ViewData["Title"] = "Ventas";
@@ -8,9 +8,12 @@
 <div class="card">
     <div class="card-body">
         <h4 class="card-title">@ViewData["Title"]</h4>
-        <p class="card-description">
-            <a asp-action="Create" class="btn btn-primary">Realizar una venta</a>
-        </p>
+        @if (Model.HasOneCampaing)
+        { 
+            <p class="card-description">
+                <a asp-action="Create" class="btn btn-primary">Realizar una venta</a>
+            </p>
+        }
 
         <div class="table-responsive">
             <table class="table">
@@ -44,7 +47,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var item in Model)
+                    @foreach (var item in Model.Sales)
                     {
                     <tr>
                         <td>

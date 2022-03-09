@@ -22,7 +22,7 @@ namespace BonusPaymentSystem.WebApp.Areas.Identity.Pages.Account
             _logger = logger;
         }
 
-        public void OnGet()
+        public async void OnGet()
         {
         }
 
@@ -32,11 +32,11 @@ namespace BonusPaymentSystem.WebApp.Areas.Identity.Pages.Account
             _logger.LogInformation("User logged out.");
             if (returnUrl != null)
             {
-                return RedirectToAction("Index","Home");
+                return RedirectToPage("LoginModel", new { returnUrl = returnUrl });
             }
             else
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToPage("LoginModel");
             }
         }
     }
