@@ -1,0 +1,80 @@
+﻿@model IEnumerable<BonusPaymentSystem.Core.Model.Parameter>
+
+@{
+    ViewData["Title"] = "Parametros";
+}
+
+<div class="card">
+    <div class="card-body">
+        <h4 class="card-title">@ViewData["Title"]</h4>
+
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            Nombre
+                        </th>
+                        <th>
+                            Etiqueta
+                        </th>
+                        <th>
+                            Valor
+                        </th>
+                        <th>
+                            Tipo de Data
+                        </th>
+                        <th>
+                            Fecha de Creación
+                        </th>
+                        <th>
+                            Fecha de Actualización
+                        </th>
+                        <th>
+                            Estatus
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Label)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Valor)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.DataType)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CreatedOn)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.UpdatedOn)
+                            </td>
+                            <td>
+                                @if (item.State == 1)
+                                {
+                                    <label class="badge badge-success">Activo</label>
+                                }
+                                else
+                                {
+                                    <label class="badge badge-warning">Inactivo</label>
+                                }
+                            </td>
+                            <td>
+                                @Html.ActionLink("Editar", "Edit", new { id = item.Id })
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

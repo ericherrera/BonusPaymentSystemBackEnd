@@ -63,6 +63,8 @@ namespace BonusPaymentSystem.WebApp.Controllers
                 }
 
                 item.Valor = model.Valor;
+                item.Label = model.Label;
+                item.State = model.State;
                 item.UpdatedBy = _userService.Get(User.Identity.Name).Id;
                 item.UpdatedOn = DateTime.Now;
 

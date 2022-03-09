@@ -1,0 +1,48 @@
+﻿@model BonusPaymentSystem.Core.Model.Parameter
+
+@{
+    ViewData["Title"] = "Editar Parmetros";
+}
+
+<div class="row">
+    <div class="col-md-8 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">@ViewData["Title"]</h4>
+                <form asp-action="Edit">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>.
+                    <input asp-for="Id" class="form-control" type="hidden" />
+                    <div class="form-group">
+                        <label asp-for="Name" class="control-label"></label>
+                        <input asp-for="Name" class="form-control" readonly />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Label" class="control-label"></label>
+                        <input asp-for="Label" class="form-control" />
+                        <span asp-validation-for="Label" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Valor" class="control-label"></label>
+                        <input asp-for="Valor" class="form-control" />
+                        <span asp-validation-for="Valor" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="State" class="control-label"></label>
+                        @Html.DropDownList("State", new List<SelectListItem>
+                                                        {
+                                                            new SelectListItem {Text = "Activo", Value = "1", Selected =  Model.State == 1},
+                                                            new SelectListItem {Text = "Inactivo", Value = "2", Selected =  Model.State != 1 },
+                                                        }, "Seleccionar", new { @class = "form-control" })
+                        <span asp-validation-for="State" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Guardar" class="btn btn-primary" />
+                        <a asp-action="Index" asp-controller="Parameter" class="btn btn-light">Regresar</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
