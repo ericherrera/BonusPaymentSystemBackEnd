@@ -75,6 +75,20 @@
     <script src="~/js/Chart.roundedBarCharts.js"></script>
     <!-- End custom js for this page-->
 
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery.fancytable/dist/fancyTable.min.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(".table").fancyTable({
+                sortColumn: 0,
+                pagination: true,
+                perPage: 10,
+                globalSearch: true
+            });
+        });
+    </script>
+
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

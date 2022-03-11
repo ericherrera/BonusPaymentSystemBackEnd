@@ -29,99 +29,95 @@
                     </form>
                 </p>
                 @if (Model.Campaing != null)
-                { 
-                    <div class="row">
-                        <div class="table-responsive">
-                            <table class="table table-striped table-borderless">
-                                <tbody>
+                {
+                    <div class="table-responsive">
+                        <table class="table table-striped table-borderless">
+                            <tbody>
+                                <tr>
+                                    <td>Id</td>
+                                    <td class="font-weight-bold">@Html.DisplayFor(model => Model.Campaing.Id)</td>
+                                </tr>
+                                <tr>
+                                    <td>Campaña</td>
+                                    <td class="font-weight-bold">@Html.DisplayFor(model => Model.Campaing.Name)</td>
+                                </tr>
+                                <tr>
+                                    <td>Monto</td>
+                                    <td class="font-weight-bold">@Html.DisplayFor(model => Model.Campaing.Amount)</td>
+                                </tr>
+                                <tr>
+                                    <td> Tasa</td>
+                                    <td class="font-weight-bold"><span>Tasa Maxima</span> @Html.DisplayFor(model => Model.Campaing.MaxAllowedRate)</td>
+                                    <td class="font-weight-bold"><span>Tasa Minima</span> @Html.DisplayFor(model => Model.Campaing.MinAllowedRate)</td>
+                                </tr>
+                                <tr>
+                                    <td>Plazo</td>
+                                    <td class="font-weight-bold"><span>Maxima</span> @Html.DisplayFor(model => Model.Campaing.MaxTerm)</td>
+                                    <td class="font-weight-bold"><span>Minima</span> @Html.DisplayFor(model => Model.Campaing.MinTerm)</td>
+                                </tr>
+                                <tr>
+                                    <td> @Html.DisplayNameFor(model => Model.Campaing.State)</td>
+                                    <td class="font-weight-bold">
+                                        @if (Model.Campaing.State == 1)
+                                        {
+                                            <span>Activo </span>
+                                        }
+                                        else
+                                        {
+                                            <span>Inactivo </span>
+                                        }
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Id
+                                    </th>
+                                    <th>
+                                        Tasa
+                                    </th>
+                                    <th>
+                                        Plazo
+                                    </th>
+                                    <th>
+                                        Monto
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.Sales)
+                                {
                                     <tr>
-                                        <td>Id</td>
-                                        <td class="font-weight-bold">@Html.DisplayFor(model => Model.Campaing.Id)</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Campaña</td>
-                                        <td class="font-weight-bold">@Html.DisplayFor(model => Model.Campaing.Name)</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Monto</td>
-                                        <td class="font-weight-bold">@Html.DisplayFor(model => Model.Campaing.Amount)</td>
-                                    </tr>
-                                    <tr>
-                                        <td> Tasa</td>
-                                        <td class="font-weight-bold"><span>Tasa Maxima</span> @Html.DisplayFor(model => Model.Campaing.MaxAllowedRate)</td>
-                                        <td class="font-weight-bold"><span>Tasa Minima</span> @Html.DisplayFor(model => Model.Campaing.MinAllowedRate)</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Plazo</td>
-                                        <td class="font-weight-bold"><span>Maxima</span> @Html.DisplayFor(model => Model.Campaing.MaxTerm)</td>
-                                        <td class="font-weight-bold"><span>Minima</span> @Html.DisplayFor(model => Model.Campaing.MinTerm)</td>
-                                    </tr>
-                                    <tr>
-                                        <td> @Html.DisplayNameFor(model => Model.Campaing.State)</td>
-                                        <td class="font-weight-bold">
-                                            @if (Model.Campaing.State == 1)
-                                            {
-                                                <span>Activo </span>
-                                            }
-                                            else
-                                            {
-                                                <span>Inactivo </span>
-                                            }
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Id)
+                                        </td>
+
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Rate)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Term)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Amount)
                                         </td>
                                     </tr>
-                                </tbody>
-                            </table>
-                        </div>
-
-                        <div class="row">
-                            <div class="table-responsive">
-                                <table class="table">
-                                    <thead>
-                                        <tr>
-                                            <th>
-                                                Id
-                                            </th>
-                                            <th>
-                                                Tasa
-                                            </th>
-                                            <th>
-                                                Plazo
-                                            </th>
-                                            <th>
-                                                Monto
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach (var item in Model.Sales)
-                                        {
-                                            <tr>
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => item.Id)
-                                                </td>
-
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => item.Rate)
-                                                </td>
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => item.Term)
-                                                </td>
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => item.Amount)
-                                                </td>
-                                            </tr>
-                                        }
-                                    </tbody>
-                                    <tfoot>
-                                    <th></th>
-                                    <th></th>
-                                    <th>Total Prestado</th>
-                                    <th>@Html.DisplayFor(model => model.TotalSale)</th>
-                                    </tfoot>
-                                </table>
-                            </div>
-                        </div>
+                                }
+                            </tbody>
+                            <tfoot>
+                            <th></th>
+                            <th></th>
+                            <th>Total Prestado</th>
+                            <th>@Html.DisplayFor(model => model.TotalSale)</th>
+                            </tfoot>
+                        </table>
                     </div>
+
                 }
             </div>
         </div>
