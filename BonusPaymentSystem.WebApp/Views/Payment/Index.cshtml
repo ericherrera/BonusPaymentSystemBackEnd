@@ -10,88 +10,98 @@
         <div class="card">
             <div class="card-body">
                 <h4 class="card-title">Ventas Pendientes de Pago Bonificación </h4>
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <div class="table-responsive">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>
-                                    Id
-                                </th>
-                                <th>
-                                    Campaña Id
-                                </th>
-                                <th>
-                                    Fecha de Venta
-                                </th>
-                                <th>
-                                    Monto
-                                </th>
-                                <th>
-                                    Tasa
-                                </th>
-                                <th>
-                                    Plazo (meses)
-                                </th>
-                                <th>
-                                    Transferencia Bonificaciación
-                                </th>
-                                <th>
-                                    Estatus
-                                </th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var item in Model.Sales)
-                            {
+                <form asp-controller="Payment" asp-action="Pay" method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="submit" value="Pagar todos" class="btn btn-primary btn-sm" />
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
                                 <tr>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Id)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.CampaingId)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.CreatedOn)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Amount)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Rate)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Term)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.ReferenceCode)
-                                    </td>
-                                    <td>
-                                        @if (item.State == 1)
-                                        {
-                                            <label class="badge badge-warning">Incentivo Pendiente</label>
-                                        }
-                                        @if (item.State == 3)
-                                        {
-                                            <label class="badge badge-success">Incentivo Pagado</label>
-                                        }
-                                        @if (item.State != 3 && item.State != 1)
-                                        {
-                                            <label class="badge badge-danger">Venta No realizada</label>
-                                        }
-                                    </td>
-                                    <td>
-                                        @if (item.State == 1)
-                                        {
-                                            @Html.ActionLink("Pagar", "Pay", new { id = item.Id })
-                                        }
-                                    </td>
+                                    <th></th>
+                                    <th>
+                                        Id
+                                    </th>
+                                    <th>
+                                        Campaña Id
+                                    </th>
+                                    <th>
+                                        Fecha de Venta
+                                    </th>
+                                    <th>
+                                        Monto
+                                    </th>
+                                    <th>
+                                        Tasa
+                                    </th>
+                                    <th>
+                                        Plazo (meses)
+                                    </th>
+                                    <th>
+                                        Transferencia Bonificaciación
+                                    </th>
+                                    <th>
+                                        Estatus
+                                    </th>
+                                    <th></th>
                                 </tr>
-                            }
-                        </tbody>
-                    </table>
-                </div>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.Sales)
+                                {
+                                    <tr>
+                                        <td>
+                                            @if (item.State == 1)
+                                            {
+                                                <input type="checkbox" id="Id" name="Id" value="@item.Id" />
+                                            }
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Id)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.CampaingId)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.CreatedOn)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Amount)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Rate)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Term)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.ReferenceCode)
+                                        </td>
+                                        <td>
+                                            @if (item.State == 1)
+                                            {
+                                                <label class="badge badge-warning">Incentivo Pendiente</label>
+                                            }
+                                            @if (item.State == 3)
+                                            {
+                                                <label class="badge badge-success">Incentivo Pagado</label>
+                                            }
+                                            @if (item.State != 3 && item.State != 1)
+                                            {
+                                                <label class="badge badge-danger">Venta No realizada</label>
+                                            }
+                                        </td>
+                                        <td>
+                                            @if (item.State == 1)
+                                            {
+                                                @Html.ActionLink("Pagar", "Pay", new { id = item.Id })
+                                            }
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

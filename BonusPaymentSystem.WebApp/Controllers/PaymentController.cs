@@ -8,6 +8,7 @@ using BonusPaymentSystem.WebApp.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,6 +25,7 @@ namespace BonusPaymentSystem.WebApp.Controllers
         private readonly IGenericService<Payment> _paymentService;
         private readonly IGenericService<Campaing> _campaingService;
         private readonly IEnumerable<Parameter> _parameters;
+        private readonly Dictionary<string, string> _errors;
 
         public PaymentController(IGenericService<Payment> paymentService, IGenericService<Sale> saleService,
                             IUserApplicationService userService, IGenericService<Campaing> campaingService, IGenericService<Parameter> parameterService)
@@ -33,10 +35,21 @@ namespace BonusPaymentSystem.WebApp.Controllers
             _userService = userService;
             _campaingService = campaingService;
             _parameters = parameterService.Get();
+            _errors = new Dictionary<string, string>();
         }
 
         public ActionResult Index()
         {
+            if (TempData["ModelError"] != null)
+            {
+                var errors = (Dictionary<string, string>)TempData["ModelError"];
+                foreach (var error in errors)
+                {
+                    ModelState.AddModelError(string.Empty, error.Value);
+                }
+
+            }
+
             var model = new SalePaymentViewModel
             {
                 Payments = _paymentService.Get(p => p.State == (int)Status.PAYOFF),
@@ -47,6 +60,38 @@ namespace BonusPaymentSystem.WebApp.Controllers
         }
 
         public async Task<ActionResult> Pay(int id)
+        {
+            if (id <= 0)
+            {
+                _errors.Add((_errors.Count + 1).ToString(), "Debe seleccionarl al menos una venta valida");
+                TempData["ModelError"] = _errors;
+                return RedirectToAction("Index");
+            }
+
+            TempData["ModelError"]  = await PayBonusOff(id);
+
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Pay(int[] id)
+        {
+            if (id == null || !id.Any())
+            {
+                _errors.Add((_errors.Count + 1).ToString(), "Debe seleccionarl al menos una venta valida");
+                TempData["ModelError"] = _errors;
+                return RedirectToAction("Index");
+            }
+
+            foreach (var i in id )
+            {
+                TempData["ModelError"] = await PayBonusOff(i);
+            }
+
+            return RedirectToAction("Index");
+        }
+
+        private async Task<Dictionary<string,string>> PayBonusOff(int id)
         {
             try
             {
@@ -76,8 +121,7 @@ namespace BonusPaymentSystem.WebApp.Controllers
 
                 if (accessToken == null || string.IsNullOrEmpty(accessToken.Token))
                 {
-                    ModelState.AddModelError(string.Empty, "Error conectando Apis de AFIHogar");
-                    return View();
+                    _errors.Add((_errors.Count + 1).ToString(), "Error conectando Apis de AFIHogar");
                 }
 
                 var userToken = await afiHogarClient.GetUserToken(usrName: afiUser, pass: afiPassword, accessTk: accessToken.Token,
@@ -86,8 +130,7 @@ namespace BonusPaymentSystem.WebApp.Controllers
 
                 if (userToken == null || string.IsNullOrEmpty(userToken.AccessToken))
                 {
-                    ModelState.AddModelError(string.Empty, "AFI hogar userToken fallido!");
-                    return View();
+                    _errors.Add((_errors.Count + 1).ToString(), "AFI hogar userToken fallido!");
                 }
 
                 var request = new TransferRequest();
@@ -142,11 +185,10 @@ namespace BonusPaymentSystem.WebApp.Controllers
             }
             catch
             {
-                ModelState.AddModelError(string.Empty, "Error! procesando su solicitud, favor intente de nuevo o consulte con el admninistrador");
+                _errors.Add((_errors.Count + 1).ToString(), "Error! procesando su solicitud, favor intente de nuevo o consulte con el admninistrador");
+
             }
-
-
-            return RedirectToAction("Index");
+            return _errors;
         }
 
     }
